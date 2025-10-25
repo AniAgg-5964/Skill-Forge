@@ -5,7 +5,7 @@ export default defineConfig({
   plugins: [react()],
   server: {
     proxy: {
-      "/api": "http://localhost:5000", // proxy backend requests
+      "/api": "https://skill-forge-km0u.onrender.com/", // proxy backend requests
     },
   },
 });
