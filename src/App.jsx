@@ -3,6 +3,7 @@ import GooeyNav from './components/Navbar/Navbar';
 import Squares from './components/Squares/Squares';
 import Landing from './components/Landing/Landing';
 import SignUpForm from './components/SignUpForm/SignUpForm';
+import SignInForm from './components/SignIn/SignIn';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/signup" element={<SignUpForm />} />
+        <Route path="/signin" element={<SignInForm />} />
       </Routes>
     </div>
   );

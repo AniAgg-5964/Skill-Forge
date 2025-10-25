@@ -1,92 +1,145 @@
-import React, { useState } from 'react'
-import { useGeolocated } from 'react-geolocated'
-import './SignUpForm.css'
+import React, { useState } from 'react';
+import { useGeolocated } from 'react-geolocated';
+import './SignUpForm.css';
 
 const SignUpForm = () => {
-  const [step, setStep] = useState(1)
+  const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
     password: '',
     location: {
-      type: 'manual', // or 'auto'
+      method: 'manual', // ✅ changed from type
       address: '',
-      coordinates: null
+      coordinates: null,
     },
     skills: {
       primary: '',
-      description: ''
-    }
-  })
+      description: '',
+    },
+  });
 
   const { coords, isGeolocationAvailable, isGeolocationEnabled, getPosition } =
     useGeolocated({
-      positionOptions: {
-        enableHighAccuracy: false
-      },
+      positionOptions: { enableHighAccuracy: false },
       userDecisionTimeout: 5000,
-      suppressLocationOnMount: true
-    })
+      suppressLocationOnMount: true,
+    });
 
+  // Handle input field changes (supports nested objects)
   const handleInputChange = (e) => {
-    const { name, value } = e.target
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }))
-  }
+    const { name, value } = e.target;
+    if (name.includes('.')) {
+      const [parent, child] = name.split('.');
+      setFormData((prev) => ({
+        ...prev,
+        [parent]: {
+          ...prev[parent],
+          [child]: value,
+        },
+      }));
+    } else {
+      setFormData((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    }
+  };
 
-  const handleLocationTypeChange = async (type) => {
-    if (type === 'auto') {
-      getPosition()
-      if (coords) {
-        setFormData(prev => ({
-          ...prev,
-          location: {
-            type: 'auto',
-            coordinates: {
-              latitude: coords.latitude,
-              longitude: coords.longitude
+  // Handle switching between manual & automatic location
+  const handleLocationMethodChange = async (method) => {
+    if (method === 'auto') {
+      try {
+        await getPosition();
+        if (coords) {
+          setFormData((prev) => ({
+            ...prev,
+            location: {
+              method: 'auto',
+              coordinates: {
+                latitude: coords.latitude,
+                longitude: coords.longitude,
+              },
+              address: '',
             },
-            address: ''
-          }
-        }))
+          }));
+        } else {
+          alert('Please allow location access in your browser.');
+        }
+      } catch (error) {
+        console.error('Error getting location:', error);
+        alert('Could not get your location. Try entering manually.');
       }
     } else {
-      setFormData(prev => ({
+      setFormData((prev) => ({
         ...prev,
         location: {
-          type: 'manual',
+          method: 'manual',
           address: '',
-          coordinates: null
-        }
-      }))
+          coordinates: null,
+        },
+      }));
     }
-  }
+  };
 
+  // Form submission
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (step < 3) {
+      setStep((prev) => prev + 1);
+      return;
+    }
+
+    try {
+      const response = await fetch('http://localhost:5000/api/auth/signup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log('✅ Signup successful:', data);
+
+        // Save token to localStorage
+        localStorage.setItem('token', data.token);
+        window.location.href = '/'; 
+      } else {
+        console.error('Signup failed:', data);
+        alert(data.message || 'Signup failed. Try again.');
+      }
+    } catch (error) {
+      console.error('Network error:', error);
+      alert('Unable to connect to server. Please try again later.');
+    }
+  };
+
+  // Step validation
   const validateStep = () => {
     switch (step) {
       case 1:
-        return formData.fullName && formData.email && formData.password.length >= 8
+        return (
+          formData.fullName.trim() &&
+          formData.email.trim() &&
+          formData.password.length >= 8
+        );
       case 2:
-        return formData.location.type === 'auto' ? formData.location.coordinates : formData.location.address
+        return formData.location.method === 'auto'
+          ? formData.location.coordinates
+          : formData.location.address.trim();
       case 3:
-        return formData.skills.primary && formData.skills.description
+        return (
+          formData.skills.primary.trim() &&
+          formData.skills.description.trim()
+        );
       default:
-        return false
+        return false;
     }
-  }
+  };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    if (step < 3) {
-      setStep(prev => prev + 1)
-    } else {
-      // Handle form submission to backend
-      console.log('Form submitted:', formData)
-    }
-  }
-
+  // Render: Step 1
   const renderAuthSection = () => (
     <div className="form-section">
       <h2>Create Your Account</h2>
@@ -123,36 +176,43 @@ const SignUpForm = () => {
           value={formData.password}
           onChange={handleInputChange}
           placeholder="Minimum 8 characters"
-          required
           minLength={8}
+          required
         />
       </div>
     </div>
-  )
+  );
 
+  // Render: Step 2
   const renderLocationSection = () => (
     <div className="form-section">
       <h2>Your Location</h2>
       <p className="location-info">
-        Allow this site to access your location? We use it only for matching opportunities nearby.
+        Allow this site to access your location? We use it only for matching
+        nearby opportunities.
       </p>
       <div className="location-options">
         <button
           type="button"
-          className={`location-btn ${formData.location.type === 'auto' ? 'active' : ''}`}
-          onClick={() => handleLocationTypeChange('auto')}
+          className={`location-btn ${
+            formData.location.method === 'auto' ? 'active' : ''
+          }`}
+          onClick={() => handleLocationMethodChange('auto')}
         >
           Use My Current Location
         </button>
         <button
           type="button"
-          className={`location-btn ${formData.location.type === 'manual' ? 'active' : ''}`}
-          onClick={() => handleLocationTypeChange('manual')}
+          className={`location-btn ${
+            formData.location.method === 'manual' ? 'active' : ''
+          }`}
+          onClick={() => handleLocationMethodChange('manual')}
         >
           Enter Manually
         </button>
       </div>
-      {formData.location.type === 'manual' && (
+
+      {formData.location.method === 'manual' && (
         <div className="form-group">
           <label htmlFor="address">Address or Zip Code</label>
           <input
@@ -162,45 +222,49 @@ const SignUpForm = () => {
             value={formData.location.address}
             onChange={handleInputChange}
             placeholder="Enter your address or zip code"
+            required
           />
         </div>
       )}
     </div>
-  )
+  );
 
+  // Render: Step 3
   const renderSkillsSection = () => (
     <div className="form-section">
       <h2>Your Skills</h2>
       <div className="form-group">
-        <label htmlFor="primarySkills">Primary Skills</label>
+        <label htmlFor="primarySkills">Primary Skill</label>
         <input
           type="text"
           id="primarySkills"
           name="skills.primary"
           value={formData.skills.primary}
           onChange={handleInputChange}
-          placeholder="Digital Marketing, Guitar Tutoring, Plumbing"
+          placeholder="Guitar Tutoring, Graphic Design, etc."
+          required
         />
       </div>
       <div className="form-group">
-        <label htmlFor="skillDescription">Skill Description / Bio</label>
+        <label htmlFor="skillDescription">Skill Description</label>
         <textarea
           id="skillDescription"
           name="skills.description"
           value={formData.skills.description}
           onChange={handleInputChange}
-          placeholder="Tell us about your experience and what you can offer..."
+          placeholder="Tell us about your experience..."
           rows={4}
+          required
         />
       </div>
     </div>
-  )
+  );
 
   return (
     <div className="signup-container">
       <form onSubmit={handleSubmit} className="signup-form">
         <div className="progress-bar">
-          {[1, 2, 3].map(num => (
+          {[1, 2, 3].map((num) => (
             <div
               key={num}
               className={`progress-step ${step >= num ? 'active' : ''}`}
@@ -219,7 +283,7 @@ const SignUpForm = () => {
             <button
               type="button"
               className="back-btn"
-              onClick={() => setStep(prev => prev - 1)}
+              onClick={() => setStep((prev) => prev - 1)}
             >
               Back
             </button>
@@ -234,7 +298,7 @@ const SignUpForm = () => {
         </div>
       </form>
     </div>
-  )
-}
+  );
+};
 
-export default SignUpForm
+export default SignUpForm;

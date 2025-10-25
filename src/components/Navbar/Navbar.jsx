@@ -76,7 +76,7 @@ const GooeyNav = () => {
               <>
                 <li
                   className="auth-btn"
-                  onClick={() => navigate('/login')}
+                  onClick={() => navigate('/signin')}
                 >
                   Login
                 </li>
