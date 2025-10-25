@@ -47,12 +47,12 @@
     padding: 0 2rem;
   }
   
-  .cards-container {
+  /* .cards-container {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 2rem;
     width: 100%;
-  }
+  } */
   
   @media (max-width: 768px) {
     .cards-container {

@@ -6,6 +6,7 @@ import Landing from './components/Landing/Landing';
 import SignUpForm from './components/SignUpForm/SignUpForm';
 import SignInForm from './components/SignIn/SignIn';
 import SkillFeedDashboard from './components/SkillFeedDashboard/SkillFeedDashboard';
+import ProviderDashboardPage from './components/ProviderDashboardPage/ProviderDashboardPage';
 import Profile from './components/Profile/Profile';
 
 function App() {
@@ -41,6 +42,7 @@ function App() {
           element={isAuthenticated ? <SkillFeedDashboard /> : <Navigate to="/" />} 
         />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/provider" element={<ProviderDashboardPage />} />
       </Routes>
     </div>
   );
