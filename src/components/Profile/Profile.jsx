@@ -13,7 +13,7 @@ const Profile = () => {
         const token = localStorage.getItem('token');
         if (!token) throw new Error('No authentication token found');
 
-        const res = await fetch('http://localhost:5000/api/auth/profile', {
+        const res = await fetch('https://skill-forge-km0u.onrender.com//api/auth/profile', {
           headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
         });
 
