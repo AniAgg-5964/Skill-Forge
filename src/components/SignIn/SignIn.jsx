@@ -21,7 +21,7 @@ const SignIn = () => {
     setError('')
 
     try {
-      const response = await fetch('https://skill-forge-km0u.onrender.com//api/auth/signin', {
+      const response = await fetch('https://skill-forge-km0u.onrender.com/api/auth/signin', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
