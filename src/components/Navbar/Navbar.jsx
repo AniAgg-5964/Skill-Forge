@@ -81,10 +81,10 @@ const GooeyNav = () => {
                   Login
                 </li>
                 <li
-                  className="auth-btn"
-                  onClick={() => navigate('/signin')}
-                >
-                  Sign Up
+                    className="auth-btn"
+                    onClick={() => navigate('/signup')}
+                    >
+                    Sign Up
                 </li>
               </>
             )}
