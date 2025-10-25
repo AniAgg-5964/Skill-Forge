@@ -1,34 +1,34 @@
-import React from 'react'
-import './SearchBar.css'
+import React from 'react';
+import './SearchBar.css';
 
 const SearchBar = ({ searchParams, onSearchChange }) => {
   const handleChange = (field) => (e) => {
     onSearchChange({
       ...searchParams,
-      [field]: field === 'radius' ? Number(e.target.value) : e.target.value
-    })
-  }
+      [field]: field === 'radius' ? Number(e.target.value) : e.target.value,
+    });
+  };
 
   return (
-    <div className="bg-gray-900 rounded-xl p-6 shadow-lg">
-      <h2 className="text-xl font-semibold mb-4">Find Skills Near You</h2>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <div className="searchbar-container">
+      <h2 className="searchbar-title">Find Skills Near You</h2>
+      <div className="searchbar-grid">
         <input
           type="text"
           placeholder="Search skills..."
-          className="bg-gray-800 rounded-md px-4 py-2 focus:ring-2 focus:ring-purple-500 focus:outline-none"
+          className="searchbar-input"
           value={searchParams.keyword}
           onChange={handleChange('keyword')}
         />
         <input
           type="text"
           placeholder="Location"
-          className="bg-gray-800 rounded-md px-4 py-2 focus:ring-2 focus:ring-purple-500 focus:outline-none"
+          className="searchbar-input"
           value={searchParams.location}
           onChange={handleChange('location')}
         />
         <select
-          className="bg-gray-800 rounded-md px-4 py-2 focus:ring-2 focus:ring-purple-500 focus:outline-none"
+          className="searchbar-input"
           value={searchParams.radius}
           onChange={handleChange('radius')}
         >
@@ -38,7 +38,7 @@ const SearchBar = ({ searchParams, onSearchChange }) => {
         </select>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default SearchBar
+export default SearchBar;
