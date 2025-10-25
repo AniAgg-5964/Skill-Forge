@@ -89,9 +89,9 @@ const GooeyNav = () => {
                 </li>
               </>
             )}
-            <li>
+            {/* <li>
               <ThemeToggle />
-            </li>
+            </li> */}
           </ul>
         </div>
       </nav>
