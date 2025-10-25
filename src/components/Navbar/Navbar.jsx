@@ -24,10 +24,10 @@ const GooeyNav = () => {
       <nav>
         <div className="nav-left">
           <Link to="/" style={{ textDecoration: 'none' }}>
-            <ShinyText text="HackHive" disabled={false} speed={3} className="custom-class" />
+            <ShinyText text="Skill Forge" disabled={false} speed={3} className="custom-class" />
           </Link>
         </div>
-        <div className="nav-center">
+        {/* <div className="nav-center">
           <ul>
             <li
               className={activeTab === "Home" ? "active" : ""}
@@ -54,7 +54,7 @@ const GooeyNav = () => {
               <Link to="/people">People</Link>
             </li>
           </ul>
-        </div>
+        </div> */}
         <div className="nav-right">
           <ul>
             {isAuthenticated ? (

@@ -21,27 +21,27 @@ const Landing = () => {
         <div className="features-section">
             <div className="cards-container">
             <SpotlightCard
-              title="AI-Powered Idea Generator"
-              content="Turn skills into winning ideas in seconds! Paste the hackathon problem statement, share your team's skills, and let AI generate tailored project ideas that align with your strengths. No more brainstorming struggles—just swipe, select, and start building!"
+              title="Geo-Location Matching"
+              content="This feature directly addresses the core problem of connecting residents with local help or learning opportunities in their vicinity.This feature allows users to discover and filter skill offerings or requests based on their geographical location."
               buttonText="Get Started"
               className="custom-spotlight-card"
             />
             <SpotlightCard
-              title="Automated Roadmap"
-              content="From idea to execution, our AI crafts a roadmap with milestones and tasks, tailored to your team's skills. Stay organized, focused, and productive. Win with a clear, AI-driven development path. Relevant rolls also assigned."
+              title="User Auth & Verification"
+              content="This feature establishes the necessary trust and security required for individuals to feel safe sharing or seeking skills within their community.This involves secure sign-up/login mechanisms and processes for verifying user identity and skills."
               buttonText="Get Started"
               className="custom-spotlight-card"
             /></div>
             <div className="cards-container">
             <SpotlightCard
-              title="Swipe-Based Idea Selection"
-              content="Empower your team with democratic decisions. Swipe to accept or reject AI ideas, ensuring unanimous agreement. Collective feedback refines suggestions, fostering collaboration and quickly uniting your team behind a project they love to build."
+              title="Booking & Scheduling"
+              content=" This is the transactional mechanism that facilitates the actual exchange of skills once two parties have been connected. This platform includes a built-in calendar for scheduling sessions between users."
               buttonText="Get Started"
               className="custom-spotlight-card"
             />
             <SpotlightCard
-              title="Skill-Based Team Formation"
-              content="Form powerful teams fast. AI matches skills to project needs, ensuring balance and efficiency. Skip coordination, focus on building. Maximize potential with AI-driven team formation, tackling challenges confidently."
+              title="Reputation System"
+              content="This system fosters the long-term trust and reliability needed for a community-based platform, encouraging participation and quality service. This involves ratings and skill endorsements that are visible on a user's profile."
               buttonText="Get Started"
               className="custom-spotlight-card"
             /></div>

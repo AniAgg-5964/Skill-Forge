@@ -51,10 +51,11 @@
   left: 0;
   z-index: 10;
   padding: 0 2vw; /* Added horizontal padding */
+  margin-left: -1.5rem;
 }
 .custom-spotlight-card {
-  width: 35vw;  /* Reduce width slightly */
-  height: 240px; /* Reduce height slightly */
+  width: 40vw;  /* Reduce width slightly */
+  height: 16rem; /* Reduce height slightly */
   padding-top: 0rem;
   margin-bottom: 5vh;
 }

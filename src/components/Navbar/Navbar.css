@@ -110,7 +110,7 @@
 
     .gooey-nav-container nav .nav-right {
       flex: 0 0 auto; /* Don't grow or shrink */
-      margin-left: 1rem;
+      margin-left: 62rem;
     }
     
     .gooey-nav-container nav ul li {
@@ -140,7 +140,7 @@
       margin-left: auto;
       background: linear-gradient(45deg, rgba(204, 153, 255, 0.3), rgba(204, 153, 255, 0.4));
       border: 1.5px solid rgba(204, 153, 255, 0.5);
-      border-radius: 8px;
+      border-radius: 32px;
       color: white;
       transition: all 0.3s ease;
       position: relative;
@@ -156,7 +156,7 @@
   }
 
 .gooey-nav-container nav ul li.auth-btn {
-      margin-left: 1rem;
+      margin-left: -0.5rem;
 }
 
 .gooey-nav-container nav ul li.auth-btn::before {
