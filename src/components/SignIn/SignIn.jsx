@@ -33,7 +33,10 @@ const SignIn = () => {
         const data = await response.json()
         // Store the token in localStorage
         localStorage.setItem('token', data.token)
-        // Handle successful login (e.g., redirect to dashboard)
+        // Dispatch event to notify auth state change
+        window.dispatchEvent(new Event('auth-change'))
+        // Redirect to dashboard
+        window.location.href = '/dashboard'
       } else {
         const error = await response.json()
         setError(error.message || 'Login failed')

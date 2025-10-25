@@ -105,7 +105,10 @@ const SignUpForm = () => {
 
         // Save token to localStorage
         localStorage.setItem('token', data.token);
-        window.location.href = '/'; 
+        // Dispatch event to notify auth state change
+        window.dispatchEvent(new Event('auth-change'));
+        // Redirect to dashboard
+        window.location.href = '/dashboard';
       } else {
         console.error('Signup failed:', data);
         alert(data.message || 'Signup failed. Try again.');
