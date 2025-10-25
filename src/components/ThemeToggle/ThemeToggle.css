@@ -1,0 +1,27 @@
+.theme-toggle {
+  background: var(--container-bg);
+  border: 1px solid var(--input-border);
+  color: var(--text-color);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 1.1rem;
+}
+
+.theme-toggle:hover {
+  background: var(--input-bg);
+  transform: scale(1.05);
+}
+
+.theme-toggle svg {
+  transition: transform 0.3s ease;
+}
+
+.theme-toggle:hover svg {
+  transform: rotate(20deg);
+}

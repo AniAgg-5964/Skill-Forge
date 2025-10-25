@@ -15,6 +15,16 @@
   --border-radius-search: 2rem;
 }
 
+[data-theme="light"] {
+  --bg-dark: #f5f5f5;
+  --purple-primary: #673ab7;
+  --purple-light: #7c4dff;
+  --purple-hover: #6a1b9a;
+  --text-light: #1a1a1a;
+  --text-muted: #616161;
+  --card-bg: #ffffff;
+}
+
 /* Dashboard Container */
 .dashboard-container {
   background-color: var(--bg-dark);

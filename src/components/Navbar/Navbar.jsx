@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import './Navbar.css';
 import ShinyText from '../ShinyText/ShinyText';
+import ThemeToggle from '../ThemeToggle/ThemeToggle';
 
 const GooeyNav = () => {
   const [activeTab, setActiveTab] = useState(null);
@@ -88,6 +89,9 @@ const GooeyNav = () => {
                 </li>
               </>
             )}
+            <li>
+              <ThemeToggle />
+            </li>
           </ul>
         </div>
       </nav>

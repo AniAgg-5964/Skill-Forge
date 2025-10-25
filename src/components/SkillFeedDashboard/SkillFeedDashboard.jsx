@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./SkillFeedDashboard.css";
+import ThemeToggle from "../ThemeToggle/ThemeToggle";
 
 const SkillFeedDashboard = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -139,7 +140,7 @@ const SkillFeedDashboard = () => {
         <div className="navbar-right">
           <Link to="/dashboard" className="nav-link active">Home</Link>
           <Link to="/profile" className="nav-link">Profile</Link>
-          <button 
+          <button
             className="nav-link logout-btn"
             onClick={() => {
               localStorage.removeItem('token');
@@ -148,6 +149,7 @@ const SkillFeedDashboard = () => {
           >
             Logout
           </button>
+          <ThemeToggle />
         </div>
       </nav>
 

@@ -5,7 +5,7 @@
 :root {
   --bg-color: #121212;
   --text-color: #ffffff;
-  --primary-color: #b388ff; /* Light purple */
+  --primary-color: #b388ff;
   --secondary-color: #673ab7;
   --error-color: #ff5252;
   --container-bg: #1e1e1e;
@@ -15,6 +15,20 @@
   --button-hover: #9c64ff;
   --heading-font: 'Anton', sans-serif;
   --body-font: 'DM Sans', sans-serif;
+}
+
+/* Light Theme Variables */
+[data-theme="light"] {
+  --bg-color: #f5f5f5;
+  --text-color: #1a1a1a;
+  --primary-color: #673ab7;
+  --secondary-color: #9c64ff;
+  --error-color: #d32f2f;
+  --container-bg: #ffffff;
+  --input-bg: #fafafa;
+  --input-border: #e0e0e0;
+  --input-focus-border: var(--primary-color);
+  --button-hover: #7c4dff;
 }
 
 /* Base Styles */

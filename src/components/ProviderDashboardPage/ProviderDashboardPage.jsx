@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
-import { 
-  FaUserCircle, 
-  FaCheckCircle, 
-  FaClock, 
-  FaCalendarCheck, 
+import {
+  FaUserCircle,
+  FaCheckCircle,
+  FaClock,
+  FaCalendarCheck,
   FaExclamationTriangle,
   FaTachometerAlt,
   FaUser,
@@ -12,6 +12,7 @@ import {
   FaFolderOpen
 } from 'react-icons/fa';
 import './ProviderDashboardPage.css';
+import ThemeToggle from '../ThemeToggle/ThemeToggle';
 
 // Custom hook to simulate data fetching
 const useAnalytics = (userId) => {
@@ -374,6 +375,9 @@ const ProviderDashboardPage = () => {
           </div>
           <h3 className="provider-name">John Doe</h3>
           <p className="provider-status">Skill Provider</p>
+          <div style={{ marginTop: '1rem' }}>
+            <ThemeToggle />
+          </div>
         </div>
         
         <nav className="nav-menu">
