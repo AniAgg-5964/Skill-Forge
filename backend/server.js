@@ -9,25 +9,29 @@ const app = express();
 // --- CORS Configuration ---
 const allowedOrigins = [
   'https://skill-forge-rho.vercel.app', // Frontend (Production on Vercel)
-  'http://localhost:5173',              // Local development
+  'http://localhost:5175',              // Local development
   'https://skill-forge-km0u.onrender.com', // <-- ADD THIS LINE (Your Render backend URL)
 ];
 
 app.use(
-  cors({
-    origin: function (origin, callback) {
-      // Allow requests with no origin (like mobile apps, Postman)
-      if (!origin) return callback(null, true);
-      if (allowedOrigins.includes(origin)) {
-        return callback(null, true);
-      } else {
-        return callback(new Error('Not allowed by CORS'));
-      }
-    },
-    credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-  })
+  // cors({
+  //   origin: function (origin, callback) {
+  //     // Allow requests with no origin (like mobile apps, Postman)
+  //     if (!origin) return callback(null, true);
+  //     if (allowedOrigins.includes(origin)) {
+  //       return callback(null, true);
+  //     } else {
+  //       return callback(new Error('Not allowed by CORS'));
+  //     }
+  //   },
+  //   credentials: true,
+  //   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  //   allowedHeaders: ['Content-Type', 'Authorization'],
+  // })
+    cors({
+      origin: true, // allow all origins
+      credentials: true,
+    })
 );
 
 // --- Middleware ---
