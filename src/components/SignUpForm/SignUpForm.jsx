@@ -13,10 +13,7 @@ const SignUpForm = () => {
       address: '',
       coordinates: null,
     },
-    skills: {
-      primary: '',
-      description: '',
-    },
+    skills: [{ primary: '', description: '' }],
   });
 
   const { coords, isGeolocationAvailable, isGeolocationEnabled, getPosition } =
@@ -85,29 +82,32 @@ const SignUpForm = () => {
   // Form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
+  
+    // Move to next step if not last step
     if (step < 3) {
-      setStep((prev) => prev + 1);
+      setStep(prev => prev + 1);
       return;
     }
-
+  
     try {
       const response = await fetch('http://localhost:5000/api/auth/signup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
       });
-
+  
       const data = await response.json();
-
+  
       if (response.ok) {
-        const data = await response.json();
         console.log('✅ Signup successful:', data);
-
-        // Save token to localStorage
+  
+        // Save token
         localStorage.setItem('token', data.token);
-        // Dispatch event to notify auth state change
+  
+        // Notify auth state change
         window.dispatchEvent(new Event('auth-change'));
-        // Redirect to dashboard
+  
+        // ✅ Redirect to dashboard
         window.location.href = '/dashboard';
       } else {
         console.error('Signup failed:', data);
@@ -116,6 +116,33 @@ const SignUpForm = () => {
     } catch (error) {
       console.error('Network error:', error);
       alert('Unable to connect to server. Please try again later.');
+    }
+  };
+
+  const handleSkillChange = (index, field, value) => {
+    setFormData(prev => ({
+      ...prev,
+      skills: prev.skills.map((skill, i) => 
+        i === index ? { ...skill, [field]: value } : skill
+      )
+    }));
+  };
+
+  // Add new skill field
+  const addSkill = () => {
+    setFormData(prev => ({
+      ...prev,
+      skills: [...prev.skills, { primary: '', description: '' }]
+    }));
+  };
+
+  // Remove skill field
+  const removeSkill = (index) => {
+    if (formData.skills.length > 1) {
+      setFormData(prev => ({
+        ...prev,
+        skills: prev.skills.filter((_, i) => i !== index)
+      }));
     }
   };
 
@@ -133,9 +160,9 @@ const SignUpForm = () => {
           ? formData.location.coordinates
           : formData.location.address.trim();
       case 3:
-        return (
-          formData.skills.primary.trim() &&
-          formData.skills.description.trim()
+        // ✅ Check every skill object safely
+        return formData.skills.every(
+          skill => skill?.primary?.trim() && skill?.description?.trim()
         );
       default:
         return false;
@@ -233,33 +260,54 @@ const SignUpForm = () => {
   );
 
   // Render: Step 3
-  const renderSkillsSection = () => (
-    <div className="form-section">
+ const renderSkillsStep = () => (
+    <div className="form-step">
       <h2>Your Skills</h2>
-      <div className="form-group">
-        <label htmlFor="primarySkills">Primary Skill</label>
+      {formData.skills.map((skill, index) => (
+        <div key={index} className="skill-entry">
+          <div className="skill-header">
+            <h3>Skill {index + 1}</h3>
+            {formData.skills.length > 1 && (
+              <button 
+                type="button" 
+                className="remove-skill-btn"
+                onClick={() => removeSkill(index)}
+              >
+                Remove
+              </button>
+            )}
+          </div>
+          <div className="skill-input-group">
+  <label htmlFor={`skill-primary-${index}`}>Primary Skill</label>
         <input
-          type="text"
-          id="primarySkills"
-          name="skills.primary"
-          value={formData.skills.primary}
-          onChange={handleInputChange}
-          placeholder="Guitar Tutoring, Graphic Design, etc."
-          required
+            type="text"
+            id={`skill-primary-${index}`}
+            placeholder="e.g., React Development, UI/UX Design"
+            value={skill.primary}
+            onChange={(e) => handleSkillChange(index, 'primary', e.target.value)}
+            required
         />
-      </div>
-      <div className="form-group">
-        <label htmlFor="skillDescription">Skill Description</label>
+        </div>
+
+        <div className="skill-input-group">
+        <label htmlFor={`skill-description-${index}`}>Skill Description</label>
         <textarea
-          id="skillDescription"
-          name="skills.description"
-          value={formData.skills.description}
-          onChange={handleInputChange}
-          placeholder="Tell us about your experience..."
-          rows={4}
-          required
+            id={`skill-description-${index}`}
+            placeholder="Describe your experience and expertise in this skill..."
+            value={skill.description}
+            onChange={(e) => handleSkillChange(index, 'description', e.target.value)}
+            required
         />
-      </div>
+        </div>
+        </div>
+      ))}
+      <button 
+        type="button" 
+        className="add-skill-btn"
+        onClick={addSkill}
+      >
+        Add Another Skill
+      </button>
     </div>
   );
 
@@ -279,7 +327,7 @@ const SignUpForm = () => {
 
         {step === 1 && renderAuthSection()}
         {step === 2 && renderLocationSection()}
-        {step === 3 && renderSkillsSection()}
+        {step === 3 && renderSkillsStep()}
 
         <div className="form-actions">
           {step > 1 && (

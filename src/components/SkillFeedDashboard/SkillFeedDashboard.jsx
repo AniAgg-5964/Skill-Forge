@@ -135,6 +135,7 @@ const SkillFeedDashboard = () => {
             />
           </div>
         </div>
+    
         <div className="navbar-right">
           <Link to="/dashboard" className="nav-link active">Home</Link>
           <Link to="/profile" className="nav-link">Profile</Link>

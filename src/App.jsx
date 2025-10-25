@@ -6,6 +6,7 @@ import Landing from './components/Landing/Landing';
 import SignUpForm from './components/SignUpForm/SignUpForm';
 import SignInForm from './components/SignIn/SignIn';
 import SkillFeedDashboard from './components/SkillFeedDashboard/SkillFeedDashboard';
+import Profile from './components/Profile/Profile';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem('token'));
@@ -39,6 +40,7 @@ function App() {
           path="/dashboard" 
           element={isAuthenticated ? <SkillFeedDashboard /> : <Navigate to="/" />} 
         />
+        <Route path="/profile" element={<Profile />} />
       </Routes>
     </div>
   );
