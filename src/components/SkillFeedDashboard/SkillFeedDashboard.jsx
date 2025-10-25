@@ -142,7 +142,7 @@ const SkillFeedDashboard = () => {
             className="nav-link logout-btn"
             onClick={() => {
               localStorage.removeItem('token');
-              navigate('/login');
+              navigate('/');
             }}
           >
             Logout

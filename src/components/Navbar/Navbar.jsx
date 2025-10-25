@@ -16,7 +16,7 @@ const GooeyNav = () => {
     localStorage.removeItem('token');
     setIsAuthenticated(false);
     window.dispatchEvent(new Event('auth-change'));
-    navigate('/login');
+    navigate('/');
   };
 
   return (

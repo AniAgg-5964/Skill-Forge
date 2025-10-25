@@ -37,7 +37,7 @@ function App() {
         <Route path="/signin" element={<SignInForm />} />
         <Route 
           path="/dashboard" 
-          element={isAuthenticated ? <SkillFeedDashboard /> : <Navigate to="/signin" />} 
+          element={isAuthenticated ? <SkillFeedDashboard /> : <Navigate to="/" />} 
         />
       </Routes>
     </div>
