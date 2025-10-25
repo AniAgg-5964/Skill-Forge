@@ -1,0 +1,88 @@
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=DM+Sans:wght@400;500;600;700&display=swap');
+
+/* Global CSS Variables */
+:root {
+  --bg-color: #121212;
+  --text-color: #ffffff;
+  --primary-color: #b388ff; /* Light purple */
+  --secondary-color: #673ab7;
+  --error-color: #ff5252;
+  --container-bg: #1e1e1e;
+  --input-bg: #2c2c2c;
+  --input-border: #3f3f3f;
+  --input-focus-border: var(--primary-color);
+  --button-hover: #9c64ff;
+  --heading-font: 'Anton', sans-serif;
+  --body-font: 'DM Sans', sans-serif;
+}
+
+/* Base Styles */
+body {
+  margin: 0;
+  font-family: var(--body-font);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--heading-font);
+  font-weight: 300;
+  letter-spacing: 0.10em;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+/* RGB Border Animation */
+@keyframes rgbBorder {
+  0% { border-color: #ff0000; }
+  16.67% { border-color: #ff00ff; }
+  33.33% { border-color: #0000ff; }
+  50% { border-color: #00ffff; }
+  66.67% { border-color: #00ff00; }
+  83.33% { border-color: #ffff00; }
+  100% { border-color: #ff0000; }
+}
+
+.rgb-border {
+  border: 2px solid;
+  animation: rgbBorder 8s linear infinite;
+  box-shadow: 0 0 15px rgba(179, 136, 255, 0.3);
+}
+
+/* App Container */
+.app-container {
+  min-height: 100vh;
+  padding: 2rem;
+}
+
+/* Content Container - Add top margin to prevent content from being hidden behind navbar */
+.projects-container,
+.people-container,
+.profile-container,
+.workspace-container,
+.ideas-container,
+.login-container,
+.sign-in-container,
+.project-details-container,
+.todo-list-container,
+.team-formation-container {
+  margin-top: 80px; /* Adds space for the navbar */
+}
+
+/* Link Styles */
+a {
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+a:hover {
+  color: var(--button-hover);
+  text-decoration: underline;
+}

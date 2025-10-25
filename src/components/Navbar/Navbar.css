@@ -1,84 +1,58 @@
-/* Navbar Container */
 .navbar {
-    background-color: #1a202c; /* dark gray */
-    border-bottom: 2px solid #6b46c1; /* purple border */
-    padding: 16px 32px;
+    background-color: rgba(17, 24, 39, 0.8);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid #6b21a8;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
   }
   
   .navbar-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem 2rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    max-width: 1200px;
-    margin: 0 auto;
   }
   
-  /* Title */
-  .navbar-title {
-    font-size: 24px;
+  .logo {
+    font-size: 1.5rem;
     font-weight: bold;
-    color: #9f7aea; /* purple text */
+    color: #a855f7;
+    text-decoration: none;
   }
   
-  /* Button container */
-  .navbar-buttons {
+  .auth-buttons {
     display: flex;
-    gap: 16px;
+    gap: 1rem;
   }
   
-  /* Buttons */
-  .btn {
-    padding: 8px 24px;
-    border-radius: 9999px; /* pill shape */
-    font-weight: bold;
+  .sign-in-btn {
+    padding: 0.5rem 1.5rem;
+    border-radius: 9999px;
+    background-color: #7c3aed;
+    color: white;
+    border: none;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.2s;
   }
   
-  /* Sign In button */
-  .btn-signin {
-    background-color: #805ad5; /* purple */
-    color: #fff;
-    border: none;
+  .sign-in-btn:hover {
+    background-color: #6d28d9;
   }
   
-  .btn-signin:hover {
-    background-color: #6b46c1;
-  }
-  
-  /* Sign Up button */
-  .btn-signup {
+  .sign-up-btn {
+    padding: 0.5rem 1.5rem;
+    border-radius: 9999px;
+    border: 1px solid #7c3aed;
     background-color: transparent;
-    color: #805ad5;
-    border: 2px solid #805ad5;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.2s;
   }
   
-  .btn-signup:hover {
-    background-color: rgba(128, 90, 213, 0.2);
+  .sign-up-btn:hover {
+    background-color: rgba(124, 58, 237, 0.1);
   }
-  
-  /* User button */
-  .btn-user {
-    background-color: #2d3748; /* darker gray */
-    border: none;
-    padding: 8px;
-    border-radius: 50%;
-  }
-  
-  .btn-user:hover {
-    background-color: #4a5568;
-  }
-  
-  /* Screen reader only */
-  .sr-only {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0,0,0,0);
-    white-space: nowrap;
-    border: 0;
-  }
-  
