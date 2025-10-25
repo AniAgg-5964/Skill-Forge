@@ -1,0 +1,52 @@
+.navbar {
+    background-color: #111827;
+    border-bottom: 1px solid #6B21A8;
+  }
+  
+  .container {
+    max-width: 80rem;
+    margin: 0 auto;
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #A855F7;
+    text-decoration: none;
+  }
+  
+  .authButtons {
+    display: flex;
+    gap: 1rem;
+  }
+  
+  .signInButton {
+    padding: 0.5rem 1.5rem;
+    border-radius: 9999px;
+    background-color: #7C3AED;
+    color: white;
+    transition: background-color 0.2s;
+    cursor: pointer;
+  }
+  
+  .signInButton:hover {
+    background-color: #6D28D9;
+  }
+  
+  .signUpButton {
+    padding: 0.5rem 1.5rem;
+    border-radius: 9999px;
+    border: 1px solid #7C3AED;
+    color: white;
+    transition: background-color 0.2s;
+    cursor: pointer;
+  }
+  
+  .signUpButton:hover {
+    background-color: rgba(109, 40, 217, 0.1);
+  }
+  

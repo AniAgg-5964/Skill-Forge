@@ -1,0 +1,68 @@
+.card {
+    background-color: #111827;
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    transition: all 0.2s;
+    cursor: pointer;
+  }
+  
+  .card:hover {
+    box-shadow: 0 0 0 2px #7C3AED;
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+  }
+  
+  .title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: white;
+    margin-bottom: 0.25rem;
+  }
+  
+  .provider {
+    color: #9CA3AF;
+  }
+  
+  .rating {
+    background-color: #7C3AED;
+    color: white;
+    font-size: 0.75rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+  }
+  
+  .description {
+    color: #D1D5DB;
+    margin-bottom: 1rem;
+  }
+  
+  .footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .distance {
+    font-size: 0.875rem;
+    color: #9CA3AF;
+  }
+  
+  .bookButton {
+    padding: 0.5rem 1rem;
+    border-radius: 1.5rem;
+    background-color: #7C3AED;
+    color: white;
+    font-size: 0.875rem;
+    transition: background-color 0.2s;
+    cursor: pointer;
+  }
+  
+  .bookButton:hover {
+    background-color: #6D28D9;
+  }
+  
