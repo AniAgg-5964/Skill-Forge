@@ -47,17 +47,6 @@ const Landing = () => {
             /></div>
           
         </div>
-
-        <div className="cta-section">
-          {!isAuthenticated ? (
-            <div className="auth-buttons">
-              <Link to="/login" className="cta-button login">Login</Link>
-              <Link to="/signup" className="cta-button signup">Sign Up</Link>
-            </div>
-          ) : (
-            <Link to="/projects" className="cta-button explore">Explore Projects</Link>
-          )}
-        </div>
       </div>
     </div>
   );
