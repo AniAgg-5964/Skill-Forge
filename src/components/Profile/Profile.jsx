@@ -62,13 +62,18 @@ const Profile = () => {
       {/* Extra Info */}
       <div className="profile-extra">
         <p><strong>Email:</strong> {profile.email}</p>
-        {profile.location?.type && (
+
+        {profile.location && (
           <p>
-            <strong>Location ({profile.location.type}):</strong>{" "}
-            {profile.location.address || 
-              `${profile.location.coordinates?.latitude}, ${profile.location.coordinates?.longitude}`}
+            <strong>Location ({profile.location.method || "Unknown"}):</strong>{" "}
+            {profile.location.address
+              ? profile.location.address
+              : profile.location.coordinates
+                ? `${profile.location.coordinates.latitude}, ${profile.location.coordinates.longitude}`
+                : "Not provided"}
           </p>
         )}
+
         <p><strong>Joined:</strong> {new Date(profile.createdAt).toLocaleDateString()}</p>
       </div>
 

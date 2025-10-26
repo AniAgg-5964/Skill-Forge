@@ -24,12 +24,24 @@ const SignIn = () => {
       const data = await response.json();
 
       if (response.ok) {
+        // Save token
         localStorage.setItem('token', data.token);
-        window.dispatchEvent(new Event('auth-change'));
 
-        // Redirect based on localStorage (isProvider)
-        const isProvider = localStorage.getItem('isProvider') === 'true';
-        window.location.href = isProvider ? '/provider' : '/dashboard';
+        // ✅ Determine role
+        let isProvider = localStorage.getItem('isProvider');
+
+        // If missing (existing user), ask once
+        if (isProvider === null) {
+          isProvider = window.confirm(
+            'Are you a Skill Provider? Click OK for yes, Cancel for no'
+          )
+            ? 'true'
+            : 'false';
+          localStorage.setItem('isProvider', isProvider);
+        }
+
+        // Redirect based on role
+        window.location.href = isProvider === 'true' ? '/provider' : '/dashboard';
       } else {
         setError(data.message || 'Login failed');
       }
@@ -43,15 +55,36 @@ const SignIn = () => {
       <form onSubmit={handleSubmit} className="signin-form">
         <h2>Sign In</h2>
         {error && <div className="error-message">{error}</div>}
+
         <div className="form-group">
           <label htmlFor="email">Email</label>
-          <input type="email" id="email" name="email" value={formData.email} onChange={handleInputChange} required />
+          <input
+            type="email"
+            id="email"
+            name="email"
+            value={formData.email}
+            onChange={handleInputChange}
+            placeholder="john@example.com"
+            required
+          />
         </div>
+
         <div className="form-group">
           <label htmlFor="password">Password</label>
-          <input type="password" id="password" name="password" value={formData.password} onChange={handleInputChange} required />
+          <input
+            type="password"
+            id="password"
+            name="password"
+            value={formData.password}
+            onChange={handleInputChange}
+            placeholder="Minimum 8 characters"
+            required
+          />
         </div>
-        <button type="submit" className="signin-btn">Sign In</button>
+
+        <button type="submit" className="signin-btn">
+          Sign In
+        </button>
       </form>
     </div>
   );

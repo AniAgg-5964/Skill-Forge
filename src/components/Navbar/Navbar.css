@@ -181,14 +181,7 @@
 .gooey-nav-container nav ul li.auth-btn:hover::before {
       opacity: 0.8;
 }
-    
-    /* Ensure profile button stays in place when active */
-    .gooey-nav-container nav ul li.profile-btn.active {
-      background: rgba(167, 103, 201, 0.66);
-      color: rgb(220, 213, 213);
-      font-weight: bold;
-      transform: translateY(-50%); /* Keep it in place */
-  }
+  
     
     /* Make sure active buttons do not shift in position */
     .gooey-nav-container nav ul li.active {
@@ -202,10 +195,35 @@
       display: none;
     }
   
-    .gooey-nav-container nav ul li.profile-btn.active,
-  .gooey-nav-container nav ul li.profile-btn:focus,
-  .gooey-nav-container nav ul li.profile-btn:hover {
-      background: rgba(167, 103, 201, 0.66); /* Same purple effect */
+    .gooey-nav-container nav ul li.profile-btn::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      background: linear-gradient(45deg, #805ad5, #6b46c1);
+      border-radius: 8px;
+      z-index: -1;
+      transition: all 0.3s ease;
+      opacity: 0;
+}
+
+.gooey-nav-container nav ul li.profile-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(107, 70, 193, 0.2);
+}
+
+.gooey-nav-container nav ul li.profile-btn:hover::before {
+      opacity: 0.8;
+}
+  
+    
+    /* Make sure active buttons do not shift in position */
+    .gooey-nav-container nav ul li.active {
+      background: rgba(167, 103, 201, 0.66);
       color: rgb(220, 213, 213);
       font-weight: bold;
-  }
+      transform: scale(1);
+      transition: background 0.3s ease-in-out, color 0.3s ease-in-out, transform 0.2s ease-in-out;
+    }

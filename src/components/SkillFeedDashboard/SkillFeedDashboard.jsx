@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./SkillFeedDashboard.css";
 import ThemeToggle from "../ThemeToggle/ThemeToggle";
+import BookingModal from "../BookingModal/BookingModal";
+import ChatbotModal from "../ChatbotModal/ChatbotModal";
 
 const SkillFeedDashboard = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -11,11 +13,13 @@ const SkillFeedDashboard = () => {
   const [filteredSkills, setFilteredSkills] = useState([]);
   const [filteredProviders, setFilteredProviders] = useState([]);
   const [filteredProjects, setFilteredProjects] = useState([]);
+  const [selectedProvider, setSelectedProvider] = useState(null);
+  const [showChatbot, setShowChatbot] = useState(false);
+
   const navigate = useNavigate();
 
   // Dummy data for skills, providers, and projects
   useEffect(() => {
-    // Simulating API fetch
     const dummySkills = [
       { id: 1, name: "React", likes: 245, icon: "💻" },
       { id: 2, name: "Python", likes: 189, icon: "🐍" },
@@ -60,19 +64,19 @@ const SkillFeedDashboard = () => {
     }
 
     const query = searchQuery.toLowerCase();
-    
-    const skillResults = skills.filter(skill => 
+
+    const skillResults = skills.filter(skill =>
       skill.name.toLowerCase().includes(query)
     );
-    
-    const providerResults = providers.filter(provider => 
-      provider.name.toLowerCase().includes(query) || 
+
+    const providerResults = providers.filter(provider =>
+      provider.name.toLowerCase().includes(query) ||
       provider.expertise.toLowerCase().includes(query)
     );
-    
-    const projectResults = projects.filter(project => 
-      project.title.toLowerCase().includes(query) || 
-      project.description.toLowerCase().includes(query) || 
+
+    const projectResults = projects.filter(project =>
+      project.title.toLowerCase().includes(query) ||
+      project.description.toLowerCase().includes(query) ||
       project.tags.some(tag => tag.toLowerCase().includes(query))
     );
 
@@ -89,7 +93,7 @@ const SkillFeedDashboard = () => {
       }
       return skill;
     });
-    
+
     setSkills(updatedSkills);
     setFilteredSkills(
       filteredSkills.map(skill => {
@@ -110,11 +114,11 @@ const SkillFeedDashboard = () => {
     for (let i = 0; i < fullStars; i++) {
       stars.push(<span key={`star-${i}`} className="star">⭐</span>);
     }
-    
+
     if (hasHalfStar) {
       stars.push(<span key="half-star" className="star">✨</span>);
     }
-    
+
     return stars;
   };
 
@@ -125,6 +129,7 @@ const SkillFeedDashboard = () => {
         <div className="navbar-left">
           <Link to="/" className="logo">Skill Forge</Link>
         </div>
+
         <div className="navbar-center">
           <div className="search-container">
             <input
@@ -136,15 +141,15 @@ const SkillFeedDashboard = () => {
             />
           </div>
         </div>
-    
+
         <div className="navbar-right">
           <Link to="/dashboard" className="nav-link active">Home</Link>
           <Link to="/profile" className="nav-link">Profile</Link>
           <button
             className="nav-link logout-btn"
             onClick={() => {
-              localStorage.removeItem('token');
-              navigate('/');
+              localStorage.removeItem("token");
+              navigate("/");
             }}
           >
             Logout
@@ -155,11 +160,22 @@ const SkillFeedDashboard = () => {
 
       {/* Main Content */}
       <main className="dashboard-content">
-        {/* Section 1 - Skill Feed Header */}
+        {/* Section 1 - Header */}
         <section className="skill-feed-header">
-          <h1>Discover Trending Skills</h1>
-          <p>Find top-rated providers and trending projects based on your interests.</p>
-        </section>
+            <div>
+              <h1>Discover Trending Skills</h1>
+              <p>Find top-rated providers and trending projects based on your interests.</p>
+            </div>
+
+            <button className="chatbot-btn" onClick={() => setShowChatbot(true)}>
+              <span className="chat-icon"><img
+                  src="https://img.icons8.com/?size=100&id=C1OCwIwaZCVt&format=png&color=000000"
+                  alt="SkillBot Icon"
+                /></span>
+              <span>Ask SkillBot</span>
+            </button>
+          </section>
+
 
         {/* Section 2 - Dynamic Content Grid */}
         <section className="content-grid">
@@ -173,7 +189,7 @@ const SkillFeedDashboard = () => {
                   <h3>{skill.name}</h3>
                   <div className="skill-likes">
                     <span>{skill.likes}</span>
-                    <button 
+                    <button
                       className="like-button"
                       onClick={() => handleLike(skill.id)}
                     >
@@ -190,7 +206,11 @@ const SkillFeedDashboard = () => {
             <h2>Top-Rated Providers</h2>
             <div className="providers-grid">
               {filteredProviders.map((provider) => (
-                <div className="provider-card" key={provider.id} onClick={() => navigate(`/provider/${provider.id}`)}>
+                <div
+                  className="provider-card"
+                  key={provider.id}
+                  onClick={() => navigate(`/provider/${provider.id}`)}
+                >
                   <div className="provider-image">
                     <img src={provider.image} alt={provider.name} />
                   </div>
@@ -200,7 +220,15 @@ const SkillFeedDashboard = () => {
                     {renderStars(provider.rating)}
                     <span className="rating-value">{provider.rating}</span>
                   </div>
-                  <button className="book-now-btn">Book Now</button>
+                  <button
+                    className="book-now-btn"
+                    onClick={(e) => {
+                      e.stopPropagation(); // prevent triggering navigation
+                      setSelectedProvider(provider);
+                    }}
+                  >
+                    Book Now
+                  </button>
                 </div>
               ))}
             </div>
@@ -211,7 +239,11 @@ const SkillFeedDashboard = () => {
             <h2>Trending Projects</h2>
             <div className="projects-scroll">
               {filteredProjects.map((project) => (
-                <div className="project-card" key={project.id} onClick={() => navigate(`/project/${project.id}`)}>
+                <div
+                  className="project-card"
+                  key={project.id}
+                  onClick={() => navigate(`/project/${project.id}`)}
+                >
                   <h3>{project.title}</h3>
                   <p className="project-description">{project.description}</p>
                   <div className="project-tags">
@@ -225,6 +257,21 @@ const SkillFeedDashboard = () => {
           </div>
         </section>
       </main>
+
+      {/* Booking Modal */}
+      {selectedProvider && (
+        <BookingModal
+          provider={selectedProvider}
+          onClose={() => setSelectedProvider(null)}
+        />
+        
+      )},
+          {/* Chatbot Modal */}
+    {showChatbot && (
+      <ChatbotModal onClose={() => setShowChatbot(false)} />
+    )}
+
+      
     </div>
   );
 };

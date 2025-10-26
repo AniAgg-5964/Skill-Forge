@@ -1,0 +1,144 @@
+.booking-modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.75);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+  }
+  
+  .booking-modal {
+    background-color: var(--card-bg);
+    color: var(--text-light);
+    border-radius: 1rem;
+    padding: 2rem;
+    width: 90%;
+    max-width: 600px;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    font-family: 'Inter', sans-serif;
+  }
+  
+  .close-btn {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: transparent;
+    border: none;
+    font-size: 1.4rem;
+    color: var(--text-light);
+    cursor: pointer;
+    transition: color 0.2s ease;
+  }
+  
+  .close-btn:hover {
+    color: var(--purple-light);
+  }
+  
+  /* Calendar Styling */
+  .calendar-container {
+    background-color: #f3f4f6; /* light contrast to dark modal */
+    border-radius: 0.75rem;
+    padding: 1rem;
+    margin-top: 1rem;
+  }
+  
+  .react-calendar {
+    width: 100%;
+    border: none;
+    background-color: transparent;
+    color: #1f2937;
+    font-family: 'Inter', sans-serif;
+  }
+  
+  .react-calendar__tile {
+    background: #ffffff;
+    color: #1f2937;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+  }
+  
+  .react-calendar__tile--now {
+    background: var(--purple-light) !important;
+    color: #fff;
+    font-weight: 500;
+  }
+  
+  .react-calendar__tile--active {
+    background: var(--purple-primary) !important;
+    color: #fff !important;
+  }
+  
+  .react-calendar__tile:enabled:hover {
+    background: rgba(91, 33, 182, 0.15);
+  }
+  
+  .react-calendar__tile--disabled {
+    background: #e5e7eb;
+    color: #9ca3af;
+    cursor: not-allowed;
+  }
+  
+  /* Session Settings */
+  .session-settings {
+    display: flex;
+    gap: 1rem;
+    margin: 1.5rem 0;
+    flex-wrap: wrap;
+  }
+  
+  .session-settings label {
+    display: flex;
+    flex-direction: column;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+  }
+  
+  .session-settings input {
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    border: 1px solid #d1d5db;
+    background: #f9fafb;
+    color: #111827;
+    margin-top: 0.25rem;
+  }
+  
+  /* Cancellation Policy */
+  .cancellation-policy {
+    margin: 1rem 0;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+  }
+  
+  .cancellation-policy h3 {
+    color: var(--purple-light);
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+  }
+  
+  /* Confirm Button */
+  .confirm-btn {
+    background-color: var(--purple-primary);
+    color: white;
+    border: none;
+    padding: 0.9rem 1.5rem;
+    border-radius: var(--border-radius-button);
+    cursor: pointer;
+    width: 100%;
+    margin-top: 1rem;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+  }
+  
+  .confirm-btn:hover {
+    background-color: var(--purple-hover);
+    transform: translateY(-2px);
+  }
+  

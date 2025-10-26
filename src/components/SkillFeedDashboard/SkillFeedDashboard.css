@@ -133,6 +133,11 @@
   text-align: center;
   margin-bottom: 3rem;
   padding: 2rem 0;
+  margin-left: 0rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-align: center
 }
 
 .skill-feed-header h1 {
@@ -365,6 +370,42 @@
   font-size: 0.8rem;
 }
 
+.chatbot-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+  background: linear-gradient(90deg, var(--purple-primary), var(--purple-light));
+  color: var(--text-light);
+  border: none;
+  border-radius: var(--border-radius-button);
+  padding: 0.75rem 1.75rem;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(139, 92, 246, 0.3);
+  transition: all 0.3s ease;
+  height: 4rem;
+}
+
+.chatbot-btn:hover {
+  /* background: linear-gradient(90deg, var(--purple-light), #a78bfa); */
+  box-shadow: 0 0 20px rgba(139, 92, 246, 0.5);
+  transform: translateY(-2px);
+}
+
+.chat-icon {
+  font-size: 1.2rem;
+}
+
+@media (max-width: 768px) {
+  .chatbot-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
 /* Responsive Design */
 @media (max-width: 1024px) {
   .dashboard-content {
@@ -440,4 +481,11 @@
   .nav-link, .logout-btn {
     padding: 0.5rem;
   }
+}
+
+.chat-icon img{
+  height: 3rem;
+  width: 3rem;
+  margin-right: 0.5rem;
+  margin-top: 0.4rem;
 }

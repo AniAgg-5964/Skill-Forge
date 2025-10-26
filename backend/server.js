@@ -9,7 +9,7 @@ const app = express();
 // --- CORS Configuration ---
 const allowedOrigins = [
   'https://skill-forge-rho.vercel.app', // Frontend (Production on Vercel)
-  'http://localhost:5175',              // Local development
+  'http://localhost:5173',              // Local development
   'https://skill-forge-km0u.onrender.com', // <-- ADD THIS LINE (Your Render backend URL)
 ];
 
