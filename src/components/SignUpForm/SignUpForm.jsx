@@ -8,42 +8,34 @@ const SignUpForm = () => {
     fullName: '',
     email: '',
     password: '',
-    location: {
-      method: 'manual', // ✅ changed from type
-      address: '',
-      coordinates: null,
-    },
+    location: { method: 'manual', address: '', coordinates: null },
     skills: [{ primary: '', description: '' }],
   });
 
-  const { coords, isGeolocationAvailable, isGeolocationEnabled, getPosition } =
-    useGeolocated({
-      positionOptions: { enableHighAccuracy: false },
-      userDecisionTimeout: 5000,
-      suppressLocationOnMount: true,
-    });
+  const { coords, getPosition } = useGeolocated({
+    positionOptions: { enableHighAccuracy: false },
+    userDecisionTimeout: 5000,
+    suppressLocationOnMount: true,
+  });
 
-  // Handle input field changes (supports nested objects)
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     if (name.includes('.')) {
       const [parent, child] = name.split('.');
       setFormData((prev) => ({
         ...prev,
-        [parent]: {
-          ...prev[parent],
-          [child]: value,
-        },
+        [parent]: { ...prev[parent], [child]: value },
       }));
     } else {
-      setFormData((prev) => ({
-        ...prev,
-        [name]: value,
-      }));
+      setFormData((prev) => ({ ...prev, [name]: value }));
     }
   };
 
-  // Handle switching between manual & automatic location
+  // Role selection → localStorage only
+  const handleRoleSelect = (role) => {
+    localStorage.setItem('isProvider', role === 'provider' ? 'true' : 'false');
+  };
+
   const handleLocationMethodChange = async (method) => {
     if (method === 'auto') {
       try {
@@ -53,10 +45,7 @@ const SignUpForm = () => {
             ...prev,
             location: {
               method: 'auto',
-              coordinates: {
-                latitude: coords.latitude,
-                longitude: coords.longitude,
-              },
+              coordinates: { latitude: coords.latitude, longitude: coords.longitude },
               address: '',
             },
           }));
@@ -70,47 +59,38 @@ const SignUpForm = () => {
     } else {
       setFormData((prev) => ({
         ...prev,
-        location: {
-          method: 'manual',
-          address: '',
-          coordinates: null,
-        },
+        location: { method: 'manual', address: '', coordinates: null },
       }));
     }
   };
 
-  // Form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
-    // Move to next step if not last step
+
     if (step < 3) {
-      setStep(prev => prev + 1);
+      setStep((prev) => prev + 1);
       return;
     }
-  
+
     try {
-      const response = await fetch('https://skill-forge-km0u.onrender.com/api/auth/signup', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-      });
-  
+      const response = await fetch(
+        'https://skill-forge-km0u.onrender.com/api/auth/signup',
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(formData),
+        }
+      );
+
       const data = await response.json();
-  
+
       if (response.ok) {
-        console.log('✅ Signup successful:', data);
-  
-        // Save token
         localStorage.setItem('token', data.token);
-  
-        // Notify auth state change
         window.dispatchEvent(new Event('auth-change'));
-  
-        // ✅ Redirect to dashboard
-        window.location.href = '/dashboard';
+
+        const isProvider = localStorage.getItem('isProvider') === 'true';
+        window.location.href = isProvider ? '/provider' : '/dashboard';
       } else {
-        console.error('Signup failed:', data);
         alert(data.message || 'Signup failed. Try again.');
       }
     } catch (error) {
@@ -120,59 +100,48 @@ const SignUpForm = () => {
   };
 
   const handleSkillChange = (index, field, value) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      skills: prev.skills.map((skill, i) => 
+      skills: prev.skills.map((skill, i) =>
         i === index ? { ...skill, [field]: value } : skill
-      )
+      ),
     }));
   };
 
-  // Add new skill field
-  const addSkill = () => {
-    setFormData(prev => ({
+  const addSkill = () =>
+    setFormData((prev) => ({
       ...prev,
-      skills: [...prev.skills, { primary: '', description: '' }]
+      skills: [...prev.skills, { primary: '', description: '' }],
     }));
-  };
 
-  // Remove skill field
-  const removeSkill = (index) => {
-    if (formData.skills.length > 1) {
-      setFormData(prev => ({
-        ...prev,
-        skills: prev.skills.filter((_, i) => i !== index)
-      }));
-    }
-  };
+  const removeSkill = (index) =>
+    formData.skills.length > 1 &&
+    setFormData((prev) => ({
+      ...prev,
+      skills: prev.skills.filter((_, i) => i !== index),
+    }));
 
-  // Step validation
   const validateStep = () => {
     switch (step) {
       case 1:
-        return (
-          formData.fullName.trim() &&
-          formData.email.trim() &&
-          formData.password.length >= 8
-        );
+        return formData.fullName.trim() && formData.email.trim() && formData.password.length >= 8;
       case 2:
         return formData.location.method === 'auto'
           ? formData.location.coordinates
           : formData.location.address.trim();
       case 3:
-        // ✅ Check every skill object safely
         return formData.skills.every(
-          skill => skill?.primary?.trim() && skill?.description?.trim()
+          (skill) => skill?.primary?.trim() && skill?.description?.trim()
         );
       default:
         return false;
     }
   };
 
-  // Render: Step 1
   const renderAuthSection = () => (
     <div className="form-section">
       <h2>Create Your Account</h2>
+
       <div className="form-group">
         <label htmlFor="fullName">Full Name</label>
         <input
@@ -185,6 +154,7 @@ const SignUpForm = () => {
           required
         />
       </div>
+
       <div className="form-group">
         <label htmlFor="email">Email</label>
         <input
@@ -197,6 +167,7 @@ const SignUpForm = () => {
           required
         />
       </div>
+
       <div className="form-group">
         <label htmlFor="password">Password</label>
         <input
@@ -210,32 +181,38 @@ const SignUpForm = () => {
           required
         />
       </div>
+
+      <div className="form-group role-selection">
+        <label>Account Type</label>
+        <div className="role-buttons">
+          <button type="button" className="role-btn" onClick={() => handleRoleSelect('learner')}>
+            Learner
+          </button>
+          <button type="button" className="role-btn" onClick={() => handleRoleSelect('provider')}>
+            Skill Provider
+          </button>
+        </div>
+      </div>
     </div>
   );
 
-  // Render: Step 2
   const renderLocationSection = () => (
     <div className="form-section">
       <h2>Your Location</h2>
       <p className="location-info">
-        Allow this site to access your location? We use it only for matching
-        nearby opportunities.
+        Allow this site to access your location? We use it only for matching nearby opportunities.
       </p>
       <div className="location-options">
         <button
           type="button"
-          className={`location-btn ${
-            formData.location.method === 'auto' ? 'active' : ''
-          }`}
+          className={`location-btn ${formData.location.method === 'auto' ? 'active' : ''}`}
           onClick={() => handleLocationMethodChange('auto')}
         >
           Use My Current Location
         </button>
         <button
           type="button"
-          className={`location-btn ${
-            formData.location.method === 'manual' ? 'active' : ''
-          }`}
+          className={`location-btn ${formData.location.method === 'manual' ? 'active' : ''}`}
           onClick={() => handleLocationMethodChange('manual')}
         >
           Enter Manually
@@ -259,8 +236,7 @@ const SignUpForm = () => {
     </div>
   );
 
-  // Render: Step 3
- const renderSkillsStep = () => (
+  const renderSkillsStep = () => (
     <div className="form-step">
       <h2>Your Skills</h2>
       {formData.skills.map((skill, index) => (
@@ -268,44 +244,36 @@ const SignUpForm = () => {
           <div className="skill-header">
             <h3>Skill {index + 1}</h3>
             {formData.skills.length > 1 && (
-              <button 
-                type="button" 
-                className="remove-skill-btn"
-                onClick={() => removeSkill(index)}
-              >
+              <button type="button" className="remove-skill-btn" onClick={() => removeSkill(index)}>
                 Remove
               </button>
             )}
           </div>
           <div className="skill-input-group">
-  <label htmlFor={`skill-primary-${index}`}>Primary Skill</label>
-        <input
-            type="text"
-            id={`skill-primary-${index}`}
-            placeholder="e.g., React Development, UI/UX Design"
-            value={skill.primary}
-            onChange={(e) => handleSkillChange(index, 'primary', e.target.value)}
-            required
-        />
-        </div>
+            <label htmlFor={`skill-primary-${index}`}>Primary Skill</label>
+            <input
+              type="text"
+              id={`skill-primary-${index}`}
+              placeholder="e.g., React Development, UI/UX Design"
+              value={skill.primary}
+              onChange={(e) => handleSkillChange(index, 'primary', e.target.value)}
+              required
+            />
+          </div>
 
-        <div className="skill-input-group">
-        <label htmlFor={`skill-description-${index}`}>Skill Description</label>
-        <textarea
-            id={`skill-description-${index}`}
-            placeholder="Describe your experience and expertise in this skill..."
-            value={skill.description}
-            onChange={(e) => handleSkillChange(index, 'description', e.target.value)}
-            required
-        />
-        </div>
+          <div className="skill-input-group">
+            <label htmlFor={`skill-description-${index}`}>Skill Description</label>
+            <textarea
+              id={`skill-description-${index}`}
+              placeholder="Describe your experience and expertise in this skill..."
+              value={skill.description}
+              onChange={(e) => handleSkillChange(index, 'description', e.target.value)}
+              required
+            />
+          </div>
         </div>
       ))}
-      <button 
-        type="button" 
-        className="add-skill-btn"
-        onClick={addSkill}
-      >
+      <button type="button" className="add-skill-btn" onClick={addSkill}>
         Add Another Skill
       </button>
     </div>
@@ -316,10 +284,7 @@ const SignUpForm = () => {
       <form onSubmit={handleSubmit} className="signup-form">
         <div className="progress-bar">
           {[1, 2, 3].map((num) => (
-            <div
-              key={num}
-              className={`progress-step ${step >= num ? 'active' : ''}`}
-            >
+            <div key={num} className={`progress-step ${step >= num ? 'active' : ''}`}>
               {num}
             </div>
           ))}
@@ -331,19 +296,11 @@ const SignUpForm = () => {
 
         <div className="form-actions">
           {step > 1 && (
-            <button
-              type="button"
-              className="back-btn"
-              onClick={() => setStep((prev) => prev - 1)}
-            >
+            <button type="button" className="back-btn" onClick={() => setStep((prev) => prev - 1)}>
               Back
             </button>
           )}
-          <button
-            type="submit"
-            className="next-btn"
-            disabled={!validateStep()}
-          >
+          <button type="submit" className="next-btn" disabled={!validateStep()}>
             {step === 3 ? 'Sign Up' : 'Next'}
           </button>
         </div>
